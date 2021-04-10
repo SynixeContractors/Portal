@@ -57,6 +57,14 @@
            <span class="nav-link">Navigation</span>
         </li>
         <li class="nav-item menu-items" v-on:click="collapseAll">
+          <router-link class="nav-link" to="/portal/user">
+            <span class="menu-icon">
+              <i class="mdi mdi-laptop"></i>
+            </span>
+            <span class="menu-title">PMC</span>
+          </router-link>
+        </li>
+        <li class="nav-item menu-items" v-on:click="collapseAll">
           <router-link class="nav-link" to="/">
             <span class="menu-icon">
               <i class="mdi mdi-speedometer"></i>

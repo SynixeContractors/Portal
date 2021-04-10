@@ -24,6 +24,17 @@ export default new Router({
       ]
     },
     {
+      path: '/portal',
+      component: layout,
+      children: [
+        {
+        path: 'user',
+        name: 'user',
+        component: () => import('@/pages/portal/user')
+        },
+      ]
+    },
+    {
       path: '/basic-ui',
       component: layout,
       children: [
