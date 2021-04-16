@@ -56,14 +56,26 @@
         <li class="nav-item nav-category">
            <span class="nav-link">Navigation</span>
         </li>
-        <li class="nav-item menu-items" v-on:click="collapseAll">
-          <router-link class="nav-link" to="/portal/user">
+        <li class="nav-item menu-items">
+          <span class="nav-link" v-b-toggle="'pmc-toggle'" :class="{'active': subIsActive('/portal')}">
             <span class="menu-icon">
               <i class="mdi mdi-laptop"></i>
             </span>
             <span class="menu-title">PMC</span>
-          </router-link>
+            <i class="menu-arrow"></i>
+          </span>
+          <b-collapse accordion="sidebar-accordion" id="pmc-toggle">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <router-link class="nav-link" to="/portal/user/">User Portal</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/portal/items/">PMC Items</router-link>
+              </li>
+            </ul>
+          </b-collapse>
         </li>
+        <!-- Extra navigation elements from template
         <li class="nav-item menu-items" v-on:click="collapseAll">
           <router-link class="nav-link" to="/">
             <span class="menu-icon">
@@ -204,6 +216,7 @@
             <span class="menu-title">Documentation</span>
           </a>
         </li>
+        -->
       </ul>
     </nav>
   </section>

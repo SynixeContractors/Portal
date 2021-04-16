@@ -10,7 +10,7 @@ export default new Router({
   linkExactActiveClass: 'active',
   scrollBehavior: () => ({ y: 0 }),
   mode: 'history',
-  base: '/demo/corona-vue-free/preview/demo_1/',
+  base: '/contractor',
   routes: [
     {
       path: '/',
@@ -28,9 +28,14 @@ export default new Router({
       component: layout,
       children: [
         {
-        path: 'user',
-        name: 'user',
-        component: () => import('@/pages/portal/user')
+          path: 'user',
+          name: 'user',
+          component: () => import('@/pages/portal/user')
+        },
+        {
+          path: 'items',
+          name: 'items',
+          component: () => import('@/pages/portal/items')
         },
       ]
     },
