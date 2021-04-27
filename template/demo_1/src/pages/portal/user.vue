@@ -4,11 +4,11 @@
             <div class="header">
                 <div class="content">
                     <img class="img-xs rounded-circle" src="@/assets/images/faces-clipart/pic-1.png" alt="">
-                    <h4 class="values">Stella Johnson</h4>
+                    <h4 class="values">Andrew Forrest</h4>
                 </div>
                 <div class="content">
-                    <h3 class="values">Bal</h3>
-                    <h4 class="values">$999,999</h4>
+                    <h3 class="values">Balance</h3>
+                    <h4 class="values">${{ userBalance }}</h4>
                 </div>
             </div>
             <div class="data-container">
@@ -45,8 +45,23 @@
     data() {
         return {
             currentTab: 'Inventory',
-            tabs: ['Inventory', 'Certs', 'Transactions'] 
+            tabs: ['Inventory', 'Certs', 'Transactions'],
+            userBalance: 0,
         };
+    },
+    created() {
+        this.fetchData();
+    },
+    methods: {
+        fetchData() {
+            fetch('https://dev.dynulo.com/pmc/v2/bank/balance/76561198852529992', {
+                'headers': {
+                    'x-dynulo-guild-token': this.$store.store.getters.communityToken,
+                }
+            })
+                .then(response => response.json())
+                .then(data => this.userBalance = data)           
+        },
     },
     computed: {
         currentTabComponent: function () {
@@ -107,9 +122,6 @@ $headingsCount: 3;
         background-color: #4E5054;
         font-size: 25px;
         color: #f2f2f2;
-    }
-    :hover{
-        background-color: $dataBackground;    
     }
     .active{
         background-color: $dataBackground; 

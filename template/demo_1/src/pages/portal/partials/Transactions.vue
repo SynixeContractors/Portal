@@ -1,6 +1,9 @@
 <template>
     <section class="app-transactions">
-        <div>
+        <div
+            v-if="transactions"
+            id="transactions"
+        >
             <div class="tbl-header">
                 <table
                     cellpadding="0"
@@ -9,8 +12,9 @@
                 >
                     <thead>
                         <tr>
-                            <th> Transaction </th>
+                            <th> Transaction Reason </th>
                             <th> Transaction Date </th>
+                            <th> Transaction Amount </th>
                         </tr>
                     </thead>
                 </table>
@@ -20,13 +24,17 @@
                     cellpadding="0"
                     cellspacing="0"
                     border="0"
-                >   
-                    <tbody>
-                        <tr>
-                            <td>Transaction</td>
-                            <td>Transaction Date</td>
-                        </tr>
-                    </tbody>
+                >
+                <tbody>
+                    <tr
+                        v-for="transaction in transactions"
+                        :key="transaction.id"
+                    >
+                    <td>{{ transaction.reason }}</td>
+                    <td>{{ transaction.created }}</td>
+                    <td>{{ transaction.amount }}</td>
+                    </tr>
+                </tbody>
                 </table>
             </div>
         </div>
@@ -36,39 +44,57 @@
 <script>
 export default {
   name: 'app-transactions',
+  data() {
+      return {
+          transactions: {},
+      }
+  },
+  created() {
+      this.fetchData();
+  },
+  methods: {
+        fetchData() {
+            fetch('https://dev.dynulo.com/pmc/v2/bank/transactions/76561198852529992', {
+                'headers': {
+                    'x-dynulo-guild-token': this.$store.store.getters.communityToken,
+                }
+            })
+                .then(response => response.json())
+                .then(data => this.transactions = data);
+        },
+    }
 }
 </script>
 
 <style lang="scss" scoped>
-table {
-	width: 100%;
-	table-layout: fixed;
+table{
+  width:100%;
+  table-layout: fixed;
 }
-.tbl-header {
-	background-color: rgba(255,255,255,0.3);
+.tbl-header{
+  background-color: rgba(255,255,255,0.3);
+ }
+ .tbl-content{
+  height:650px;
+  overflow-x:auto;
+  margin-top: 0px;
+  border: 1px solid rgba(255,255,255,0.3);
 }
-.tbl-content {
-	height: 750px;
-	overflow-x: auto;
-	margin-top: 0px;
-	border: 1px solid rgba(255,255,255,0.3);
+th{
+  padding: 20px 15px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 16px;
+  color: #fff;
+  text-transform: uppercase;
 }
-th {
-	padding: 20px 15px;
-	text-align: left;
-	font-weight: 500;
-	font-size: 16px;
-	color: #fff;
-	text-transform: uppercase;
+td{
+  padding: 15px;
+  text-align: left;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 12px;
+  color: #fff;
+  border-bottom: solid 1px rgba(255,255,255,0.1);
 }
-td {
-	padding: 15px;
-	text-align: left;
-	vertical-align: middle;
-	font-weight: 300;
-	font-size: 12px;
-	color: #fff;
-	border-bottom: solid 1px rgba(255,255,255,0.1);
-}
-
 </style>
