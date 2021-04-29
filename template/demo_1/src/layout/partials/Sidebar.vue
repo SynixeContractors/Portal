@@ -3,21 +3,22 @@
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top text-center">
         <router-link class="sidebar-brand brand-logo" to="/">
-          <img src="@/assets/images/logo.svg" alt="logo" />
+          <h3> Contractor Portal </h3>
         </router-link>
         <router-link class="sidebar-brand brand-logo-mini" to="/">
-          <img src="@/assets/images/logo-mini.svg" alt="logo" />
+          <img src="@/assets/images/synixe.png" alt="logo" />
         </router-link>
       </div>
       <ul class="nav">
         <li class="nav-item account-dropdown">
           <a class="nav-link" v-b-toggle="'account-dropdown'">
             <img class="img-xs rounded-circle" src="@/assets/images/faces-clipart/pic-1.png" alt="">
-            <p class="mb-0 text-light">Stella Johnson</p>
+            <p class="mb-0 text-light">Andrew Forrest</p>
             <i class="menu-arrow"></i>
           </a>
           <b-collapse accordion="sidebar-accordion" id="account-dropdown">
             <ul class="nav flex-column sub-menu pl-0">
+              <!--
               <li class="nav-item">
                 <a class="nav-link pl-5" href="#">
                   <span class="menu-icon">
@@ -41,7 +42,7 @@
                   </span>
                   <span class="menu-title">Settings</span>
                 </a>
-              </li>
+              </li>-->
               <li class="nav-item">
                 <a class="nav-link pl-5" href="#">
                   <span class="menu-icon">
@@ -70,7 +71,7 @@
                 <router-link class="nav-link" to="/portal/user/">User Portal</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/portal/items/">PMC Items</router-link>
+                <router-link class="nav-link" to="/portal/items/">Arsenal</router-link>
               </li>
             </ul>
           </b-collapse>

@@ -25,7 +25,7 @@
                             <th> Category </th>
                             <th> Item Name </th>
                             <th> Item Cost </th>
-                            <th> Requirement </th>
+                            <th> Requirement(s) </th>
                         </tr>
                     </thead>
                 </table>
