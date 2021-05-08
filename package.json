@@ -1,0 +1,25 @@
+{
+  "name": "portal",
+  "version": "1.0.0",
+  "description": "PMC portal for Synixe Contractors",
+  "main": "index.js",
+  "dependencies": {
+    "chart.js": "^3.2.1",
+    "vue-chartjs": "^3.5.1",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SynixeContractors/Portal.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SynixeContractors/Portal/issues"
+  },
+  "homepage": "https://github.com/SynixeContractors/Portal#readme"
+}

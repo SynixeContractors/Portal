@@ -4,49 +4,70 @@
             v-if="transactions"
             id="transactions"
         >
-            <div class="tbl-header">
-                <table
-                    cellpadding="0"
-                    cellspacing="0"
-                    border="0"
+            <button style="float:right; padding-right:15px;" v-on:click="changeView"> Graph </button>
+            <transition-group name="transactions">
+                <div id="list-table"
+                    key='list'
+                    v-if="this.view == 'list'"
                 >
-                    <thead>
-                        <tr>
-                            <th> Transaction Reason </th>
-                            <th> Transaction Date </th>
-                            <th> Transaction Amount </th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="tbl-content">
-                <table
-                    cellpadding="0"
-                    cellspacing="0"
-                    border="0"
+                    <div class="tbl-header">
+                        <table
+                            cellpadding="0"
+                            cellspacing="0"
+                            border="0"
+                        >
+                            <thead>
+                                <tr>
+                                    <th> Transaction Reason </th>
+                                    <th> Transaction Date </th>
+                                    <th> Transaction Amount </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="tbl-content">
+                        <table
+                            cellpadding="0"
+                            cellspacing="0"
+                            border="0"
+                        >
+                        <tbody>
+                            <tr
+                                v-for="transaction in transactions"
+                                :key="transaction.id"
+                            >
+                            <td>{{ transaction.reason }}</td>
+                            <td>{{ transaction.created }}</td>
+                            <td>{{ transaction.amount }}</td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="graph"
+                    key='graph'
+                    v-if="this.view == 'graph'"
                 >
-                <tbody>
-                    <tr
-                        v-for="transaction in transactions"
-                        :key="transaction.id"
-                    >
-                    <td>{{ transaction.reason }}</td>
-                    <td>{{ transaction.created }}</td>
-                    <td>{{ transaction.amount }}</td>
-                    </tr>
-                </tbody>
-                </table>
-            </div>
+                    <transactionChart :chart-data='graphData' :options='graphData.options'></transactionChart>
+                </div>
+            </transition-group>
         </div>
     </section>
 </template>
 
 <script>
+import TransactionChart from './transactionChart.js'
+
 export default {
   name: 'app-transactions',
+  components: {
+      TransactionChart
+  },
   data() {
       return {
-          transactions: {},
+          transactions: [],
+          graphData: null,
+          view: 'graph',
       }
   },
   created() {
@@ -60,9 +81,62 @@ export default {
                 }
             })
                 .then(response => response.json())
-                .then(data => this.transactions = data);
+                .then(data => this.transactions = data)
+                .then(data => this.fillData(data));
         },
-    }
+        fillData(data) {
+            var reasons = [];
+            var points = [];
+            for(var i = 0; i < data.length; i++){
+                reasons.push(data[i].reason);
+            }
+            for(var j = 0; j < data.length; j++){
+                points.push(data[j].amount);
+            }
+            this.graphData = {
+                labels: reasons,
+                datasets: [
+                    {
+                        label: 'Transactions',
+                        backgroundColor: '#f87979',
+                        data: points,
+                    },
+                ],
+                options: {
+                    legend: {
+                        display: false,
+                    },
+                    scales: {
+                        yAxes: [
+                            {
+                                ticks: {
+                                    fontColor: "#f2f2f2f2",
+                                    fontSize: 18,
+                                    beginAtZero: true
+                                }
+                        }],
+                        xAxes: [
+                            {
+                                ticks: {
+                                    fontColor: "#f2f2f2f2",
+                                    fontSize: 12,
+                                    beginAtZero: true
+                                }
+                        }]
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false,
+                }
+            }
+        },
+        changeView: function() {
+            if(this.view == 'list') {
+                this.view = 'graph';
+            } else {
+                this.view = 'list';
+            }
+        }
+    },
 }
 </script>
 

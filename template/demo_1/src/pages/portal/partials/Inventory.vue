@@ -52,16 +52,16 @@
                 </div>
             </div>
             <div class="Misc">
-                <div class="Map" v-if="misc[0]">Map</div>
-                <div class="GPS" v-if="misc[1]">GPS</div>
-                <div class="Compass" v-if="misc[3]">Compass</div>
-                <div class="Watch" v-if="misc[4]">Watch</div>
+                <div class="Map"><h4 v-if="misc[0]">Map</h4></div>
+                <div class="GPS"><h4 v-if="misc[1]">GPS</h4></div>
+                <div class="Compass"><h4 v-if="misc[2]">Compass</h4></div>
+                <div class="Watch"><h4 v-if="misc[3]">Watch</h4></div>
             </div>
             <div class="Extra-Gear">
-                <div class="Helmet" v-if="equipment[0]">{{ equipment[0] }}</div>
-                <div class="Facewear" v-if="equipment[1]">{{ equipment[1] }}</div>
-                <div class="NVGs" v-if="equipment[2]">{{ equipment[2] }}</div>
-                <div class="Binoculars" v-if="equipment[3]">{{ equipment[3] }}</div>
+                <div class="Helmet"><h5 v-if="equipment[0]">{{ equipment[0] }}</h5></div>
+                <div class="Facewear"><h5 v-if="equipment[1]">{{ equipment[1] }}</h5></div>
+                <div class="NVGs"><h5 v-if="equipment[2]">{{ equipment[2] }}</h5></div>
+                <div class="Binoculars"><h5 v-if="equipment[3]">{{ equipment[3] }}</h5></div>
             </div>
             <div class="Primary"
                 v-if="pweapon[0]"
@@ -138,12 +138,12 @@ export default {
                 .then(data => this.data = data)
                 .then(()=>{
                     this.loadout = JSON.parse(this.data.loadout)
-                    this.pweapon = this.loadout[0];
-                    this.sweapon = this.loadout[1];
-                    this.lweapon = this.loadout[2];
-                    this.uitems = this.loadout[3];
-                    this.vitems = this.loadout[4];
-                    this.bitems = this.loadout[5];
+                    if(this.loadout[0]){this.pweapon = this.loadout[0]}
+                    if(this.loadout[1]){this.lweapon = this.loadout[1]}
+                    if(this.loadout[2]){this.sweapon = this.loadout[2]}
+                    if(this.loadout[3]){this.uitems = this.loadout[3]}
+                    if(this.loadout[4]){this.vitems = this.loadout[4]}
+                    if(this.loadout[5]){this.bitems = this.loadout[5]}
                     for(var i = 0; i < 5; i++){
                         if(this.loadout[9][i] != ""){
                             this.misc.push(this.loadout[9][i]);
@@ -165,41 +165,101 @@ export default {
                 .then(data => this.items = data)
                 .then(()=>{
                     var items = this.items.map(function(e) { return e.class; });
-                    
-                    this.uitems[0] = this.items[items.indexOf(this.uitems[0])].pretty;
-                    for (var a = 0; a < this.uitems[1].length; a++){
-                        var b = items.indexOf(this.uitems[1][a][0])
-                        this.uitems[1][a][0] = this.items[b].pretty;
+                    if(this.uitems[0]){
+                      this.uitems[0] = this.items[items.indexOf(this.uitems[0])].pretty;
+                      for (var a = 0; a < this.uitems[1].length; a++){
+                          var b = items.indexOf(this.uitems[1][a][0])
+                          this.uitems[1][a][0] = this.items[b].pretty;
+                      }
                     }
-                    this.vitems[0] = this.items[items.indexOf(this.vitems[0])].pretty;
-                    for (var c = 0; c < this.vitems[1].length; c++){
-                        var d = items.indexOf(this.vitems[1][c][0])
-                        this.vitems[1][c][0] = this.items[d].pretty;
+                    if(this.vitems[0]){
+                      this.vitems[0] = this.items[items.indexOf(this.vitems[0])].pretty;
+                      for (var c = 0; c < this.vitems[1].length; c++){
+                          var d = items.indexOf(this.vitems[1][c][0])
+                          this.vitems[1][c][0] = this.items[d].pretty;
+                      }
                     }
-                    this.bitems[0] = this.items[items.indexOf(this.bitems[0])].pretty;
-                    for (var e = 0; e < this.bitems[1].length; e++){
-                        var f = items.indexOf(this.bitems[1][e][0])
-                        this.bitems[1][e][0] = this.items[f].pretty;
+                    if(this.bitems[0]){
+                      this.bitems[0] = this.items[items.indexOf(this.bitems[0])].pretty;
+                      for (var e = 0; e < this.bitems[1].length; e++){
+                          var f = items.indexOf(this.bitems[1][e][0])
+                          this.bitems[1][e][0] = this.items[f].pretty;
+                      }
                     }
                     if(this.pweapon[0]){
-                        this.pweapon[0] = this.items[items.indexOf(this.pweapon[0])].pretty;
-                        for (var g = 0; g < this.pweapon[1].length; g++){
-                            var h = items.indexOf(this.pweapon[1][g][0])
-                            this.pweapon[1][g][0] = this.items[h].pretty;
+                        if(this.pweapon[0] != ""){this.pweapon[0] = this.items[items.indexOf(this.pweapon[0])].pretty}
+                        if(this.pweapon[1] != ""){this.pweapon[1] = this.items[items.indexOf(this.pweapon[1])].pretty}
+                        if(this.pweapon[2] != ""){this.pweapon[2] = this.items[items.indexOf(this.pweapon[2])].pretty}
+                        if(this.pweapon[3] != ""){
+                          try {
+                            this.pweapon[3] = this.items[items.indexOf(this.pweapon[3].toLowerCase())].pretty;
+                          }
+                          catch {
+                              var tmp = this.pweapon[3];
+                              tmp = tmp.split('_');
+                              tmp.pop();
+                              this.pweapon[3] = tmp.join('_');
+                              this.pweapon[3] = this.items[items.indexOf(this.pweapon[3].toLowerCase())].pretty;
+                          }
                         }
+                        if(this.pweapon[4][0] != ""){this.pweapon[4][0] = this.items[items.indexOf(this.pweapon[4][0])].pretty}
+                        if(this.pweapon[5][0]){this.pweapon[5][0] = this.items[items.indexOf(this.pweapon[5][0])].pretty}
+                        if(this.pweapon[6] != ""){this.pweapon[6] = this.items[items.indexOf(this.pweapon[6])].pretty}
                     }
                     if(this.sweapon[0]){
-                        this.sweapon[0] = this.items[items.indexOf(this.sweapon[0])].pretty;
-                        for (var i = 0; i < this.sweapon[1].length; i++){
-                            var j = items.indexOf(this.sweapon[1][i][0])
-                            this.sweapon[1][i][0] = this.items[j].pretty;
+                        if(this.sweapon[0] != ""){this.sweapon[0] = this.items[items.indexOf(this.sweapon[0])].pretty}
+                        if(this.sweapon[1] != ""){this.sweapon[1] = this.items[items.indexOf(this.sweapon[1])].pretty}
+                        if(this.sweapon[2] != ""){this.sweapon[2] = this.items[items.indexOf(this.sweapon[2])].pretty}
+                        if(this.sweapon[3] != ""){
+                          var tmp2 = this.pweapon[3];
+                          tmp2 = tmp2.split('_');
+                          tmp2.pop();
+                          this.pweapon[3] = tmp2.join('_');
+                          this.pweapon[3] = this.items[items.indexOf(this.pweapon[3].toLowerCase())].pretty;
+                          
+                        } 
+                        if(this.sweapon[4][0] != ""){
+                          try {
+                          this.sweapon[4][0] = this.items[items.indexOf(this.sweapon[4][0])].pretty
+                          }
+                          catch {
+                            /* eslint no-console: ["error", { allow: ["log"] }] */
+                            console.log("Error in Secondary Weapon");
+                          }
                         }
+                        if(this.sweapon[5][0]){this.sweapon[5][0] = this.items[items.indexOf(this.sweapon[5][0])].pretty}
+                        if(this.sweapon[6] != ""){this.sweapon[6] = this.items[items.indexOf(this.sweapon[6])].pretty}
                     }
                     if(this.lweapon[0]){
-                        this.lweapon[0] = this.items[items.indexOf(this.lweapon[0])].pretty;
-                        for (var k = 0; k < this.lweapon[1].length; k++){
-                            var l = items.indexOf(this.lweapon[1][k][0])
-                            this.lweapon[1][k][0] = this.items[l].pretty;
+                      try {
+                        if(this.lweapon[0] != ""){
+                          try {
+                            this.lweapon[0] = this.items[items.indexOf(this.lweapon[0])].pretty;
+                          }
+                          catch {
+                            var tmp3 = this.pweapon[3];
+                            tmp3 = tmp3.split('_');
+                            tmp3.pop();
+                            this.pweapon[3] = tmp3.join('_');
+                            this.pweapon[3] = this.items[items.indexOf(this.pweapon[3].toLowerCase())].pretty;
+                          } 
+                        }
+                        if(this.lweapon[1] != ""){this.lweapon[1] = this.items[items.indexOf(this.lweapon[1])].pretty}
+                        if(this.lweapon[2] != ""){this.lweapon[2] = this.items[items.indexOf(this.lweapon[2])].pretty}
+                        if(this.lweapon[3] != ""){
+                          var tmp4 = this.lweapon[3];
+                          tmp4 = tmp4.split('_');
+                          tmp4.pop();
+                          this.lweapon[3] = tmp4.join('_');
+                          this.lweapon[3] = this.items[items.indexOf(this.lweapon[3].toLowerCase())].pretty;
+                          
+                        } 
+                        if(this.lweapon[4][0] != ""){this.lweapon[4][0] = this.items[items.indexOf(this.lweapon[4][0])].pretty}
+                        if(this.lweapon[5][0]){this.lweapon[5][0] = this.items[items.indexOf(this.lweapon[5][0])].pretty}
+                        if(this.lweapon[6] != ""){this.lweapon[6] = this.items[items.indexOf(this.lweapon[6])].pretty}
+                      }
+                      catch {
+                          this.lweapon[0] = "Invalid Launcher";
                         }
                     }
                     for (var m = 0; m < this.misc.length; m++){
@@ -350,7 +410,8 @@ $bordersize: 2px;
   grid-template-areas:
     "Helmet Facewear NVGs Binoculars";
   grid-area: Extra-Gear;
-  border: $bordersize solid $bordercolor;
+  border-left: $bordersize solid $bordercolor;
+  border-top: $bordersize solid $bordercolor;
 }
 .Helmet { grid-area: Helmet; margin: auto; font-size: 16px;}
 .Facewear { grid-area: Facewear; margin: auto; font-size: 16px;}
@@ -411,7 +472,6 @@ $bordersize: 2px;
   grid-template-areas:
     ".";
   grid-area: lGun;
-  border: $bordersize solid $bordercolor;
   font-size: 20px;
   text-align: center;
 }

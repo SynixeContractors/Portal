@@ -25,6 +25,7 @@
                             <th> Category </th>
                             <th> Item Name </th>
                             <th> Item Cost </th>
+                            <th> Item Class </th>
                             <th> Requirement(s) </th>
                         </tr>
                     </thead>
@@ -44,6 +45,7 @@
                             <td>{{ item.categories }}</td>
                             <td>{{ item.pretty }}</td>
                             <td>{{ item.cost }}</td>
+                            <td>{{ item.class }}</td>
                             <td>{{ item.traits }}</td>
                         </tr>
                     </tbody>
